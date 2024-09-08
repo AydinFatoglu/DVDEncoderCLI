@@ -2,7 +2,7 @@
 
 ## Overview
 
-**DVD Encoder CLI** is a Python-based command-line tool that helps you scan and encode DVD titles using [HandBrakeCLI](https://handbrake.fr/). This project is bundled with `HandBrakeCLI.exe` using `auto-py-to-exe`, making it easy to distribute and run on different machines.
+**DVD Encoder CLI** is a Python-based command-line tool that helps you scan and encode DVD titles using [HandBrakeCLI](https://handbrake.fr/). This project is bundled with `HandBrakeCLI.exe` making it easy to distribute and run on different machines.
 
 The program allows users to:
 - Scan DVDs and list available titles with their durations.
