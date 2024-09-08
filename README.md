@@ -39,10 +39,4 @@ These settings have been designed for DVD rips, ensuring high-quality output wit
 - [HandBrakeCLI](https://handbrake.fr/downloads.php) (bundled as `HandBrakeCLI.exe`)
 - [auto-py-to-exe](https://pypi.org/project/auto-py-to-exe/) for bundling the script into an executable
 
-## How to Use
 
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/yourusername/dvd-encoder-cli.git
-cd dvd-encoder-cli
