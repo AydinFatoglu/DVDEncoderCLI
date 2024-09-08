@@ -94,6 +94,16 @@ def encode_title(dvd_drive, output_dir, title_num):
     except Exception as e:
         print(f"An error occurred while encoding Title {title_num}: {e}")
 
+# Function to display a menu and get user input
+def display_menu():
+    print("""
+    1. Scan DVD titles
+    2. Encode a title
+    3. Change DVD drive or target directory
+    4. Exit
+    """)
+    return input("Choose an option (1-4): ").strip()
+
 # Main function to handle encoding flow
 def main():
     # Display a cool-looking banner
@@ -110,51 +120,41 @@ def main():
     stored_dvd_drive = dvd_drive if store_values == 'yes' else None
     stored_output_dir = output_dir if store_values == 'yes' else None
 
+    titles = None  # This will hold the scanned titles
+
     while True:
-        # Use stored values if available, otherwise ask again for each loop
-        if stored_dvd_drive is None or stored_output_dir is None:
-            dvd_drive = input("Enter the DVD drive letter (e.g., E): ").strip().upper()
-            output_dir = input("Enter the target directory to save encoded files (e.g., Z:/Videos): ").strip()
+        # Display the menu options
+        choice = display_menu()
 
-        # Scan for titles
-        titles = scan_dvd_titles(dvd_drive)
+        if choice == '1':
+            # Scan for DVD titles
+            titles = scan_dvd_titles(dvd_drive)
 
-        # If titles are found, prompt user to select titles for encoding
-        if titles:
-            while True:
+        elif choice == '2':
+            if titles:
+                # If titles have already been scanned, prompt for encoding
                 title_nums = input("Enter the title numbers you want to encode, separated by commas (e.g., 14,15): ")
                 selected_titles = [t.strip() for t in title_nums.split(',') if t.strip()]
 
                 # Encode selected titles
                 for title_num in selected_titles:
                     encode_title(dvd_drive, output_dir, title_num)
+            else:
+                print("No titles found. Please scan the DVD first (Option 1).")
 
-                # Ask if the user wants to encode another title from the same DVD
-                another_title = input("Do you want to encode another title from this DVD? (yes/no): ").strip().lower()
-                if another_title == 'yes':
-                    # Rescan the DVD and display the titles again
-                    titles = scan_dvd_titles(dvd_drive)
-                else:
-                    # Ask if they want to use stored values or enter new ones after completing current DVD
-                    if stored_dvd_drive and stored_output_dir:
-                        reuse_values = input("Do you want to reuse the stored drive and target directory? (yes/no): ").strip().lower()
-                        if reuse_values == 'no':
-                            # Reset stored values and prompt for new ones
-                            stored_dvd_drive = None
-                            stored_output_dir = None
-                            dvd_drive = input("Enter the new DVD drive letter (e.g., E): ").strip().upper()
-                            output_dir = input("Enter the new target directory to save encoded files (e.g., Z:/Videos): ").strip()
-                            break
-                    else:
-                        break
+        elif choice == '3':
+            # Change DVD drive and target directory
+            dvd_drive = input("Enter the DVD drive letter (e.g., E): ").strip().upper()
+            output_dir = input("Enter the target directory to save encoded files (e.g., Z:/Videos): ").strip()
+            print("Drive and target directory updated. You may now rescan or encode titles.")
 
-        # Ask if the user wants to encode titles from another DVD
-        another_dvd = input("Do you want to encode titles from a new DVD? (yes/no): ").strip().lower()
-        if another_dvd == 'yes':
-            continue
-        else:
+        elif choice == '4':
+            # Exit the program
             print("Exiting script. All encoding complete.")
             break
+
+        else:
+            print("Invalid option. Please choose a valid menu option.")
 
 if __name__ == "__main__":
     main()
